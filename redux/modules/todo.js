@@ -7,14 +7,14 @@ export const constants = {
 let nextTodoId = 0;
 
 export const actions = {
-  addTodo({ name, tags, date }) {
+  addTodo({ name, tag, date }) {
     return {
       type: constants.ADD_TODO,
       itemToAdd: { 
         checked: false,
         id: nextTodoId++,
         name, 
-        tags,
+        tag,
         date
       }
     };

@@ -1,27 +1,56 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 
-import './styles.js';
+import { 
+  AddFormButton,
+  AddFormWrapper,
+  FormStyles,
+  AddFormHeader,
+  FormInput,
+  FormTags,
+  FormTag,
+  FormDataPicker,
+  SubmitButton,
+  SubmitButtonWrapper,
+  DataPickerHeader,
+} from './styles';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
-const TAGS = ['Personal', 'Work', 'Meeting', 'Study', 'Shopping'];
+import { Button } from '../../util/icons';
+
+import { TAGS } from '../../util/constant/dates';
 
 class AddForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '', 
-      tag: '',
+      tag: [],
       date: '',
+      isOpenModal: false,
+      isDataPickerOpen: false,
     }
   }
 
   handleChange = e => {
     if (e.target) {
       const { name, type, value } = e.target;
+      console.log(value)
       const val = type === 'number' ? parseFloat(value) : value;
 
       this.setState({ [name]: val });
+    }
+  };
+
+  handleChangeTags = e => {
+    if (e.target) {
+      const { value } = e.target;
+      const tag = TAGS[value - 1];
+
+      console.log(tag)
+
+      this.setState({ tag });
     }
   };
 
@@ -31,39 +60,69 @@ class AddForm extends Component {
   };
 
   render () {
-    return (
-      <form onSubmit={this.addItem}>
-        <div>
-          <input onChange={this.handleChange} type='text' placeholder='Item to add' name="name" ref='Name' />
-        </div>
-        <div>
-          <select
-            name="tags"
-            required
+    const { date, isOpenModal, tag, isDataPickerOpen } = this.state;
+
+    return <AddFormWrapper isOpenModal={isOpenModal}>
+      <AddFormButton onClick={() => this.setState({ isOpenModal: !isOpenModal })}>
+        <Button />
+      </AddFormButton>
+      <FormStyles onSubmit={this.addItem}>
+        <AddFormHeader>
+          Add new task
+        </AddFormHeader>
+        <FormInput>
+          <input
             onChange={this.handleChange}
-            style={{ width: '100%' }}
-          >
-            {TAGS.map(tag =>
-              <option value={tag.toString()} key={tag}>
-                <span>{tag}</span>
-              </option>
-            )}
-          </select>
-        <div>
-        <DatePicker
-          selected={this.state.date}
-          onChange={date => this.setState({ date })}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={15}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          timeCaption="time"
-        />
-        </div>
-      </div>
-      <button type='submit'>Add Item</button>
-    </form>
-    )
+            type="text"
+            name="name"
+            id="AddTask" />
+          <label htmlFor="AddTask">Add new task</label>
+        </FormInput>
+
+        <FormTags
+          name="tags"
+          required
+          id="SelectCategory"
+        >
+          {TAGS.map(item => <FormTag 
+            key={item.id}
+            color={item.color} 
+            isChecked={tag.id === item.id}
+            >
+            <input
+              type="radio"
+              value={item.id}
+              onChange={this.handleChangeTags}
+              id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
+              name="tagGroup" 
+              defaultChecked={tag.id === item.id}
+            />
+            <label htmlFor={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}>{item.name}</label>
+          </FormTag>)}
+        </FormTags>
+        <FormDataPicker>
+          <DataPickerHeader>
+            <p tabIndex={0} onClick={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}>Choose date</p>
+          </DataPickerHeader>
+          <DatePicker
+            tabIndex={-1}
+            open={isDataPickerOpen}
+            selected={date}
+            onChange={date => this.setState({ date })}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="MMMM d, yyyy h:mm aa"
+            timeCaption="time"
+          />
+        </FormDataPicker>
+        <SubmitButtonWrapper>
+          <SubmitButton type='submit'>
+            Add Item
+          </SubmitButton>
+        </SubmitButtonWrapper>
+      </FormStyles>
+    </AddFormWrapper>
   }
 }
 

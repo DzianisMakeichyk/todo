@@ -1,11 +1,36 @@
-const TodoItem = ({ item, addCompletedTodo, removeTodo }) => <li>
-		<h5>
+import format from 'date-fns/format';
+
+import { 
+	Item,
+	InputRadio,
+	ItemIcon,
+	ItemContent,
+} from './styles';
+
+import { VisuallyHidden } from '..';
+
+import { Trash } from '../../util/icons';
+
+const TodoItem = ({ item, addCompletedTodo, removeTodo }) => <Item color={item.tag.color}>
+	<InputRadio>
+		<input
+			id={item.name.slice(0,8).replace(' ', '-') + '-' + item.id}
+			type="radio"
+			defaultChecked={item.checked}
+			onClick={() => addCompletedTodo(item)}
+		/>
+		<label htmlFor={item.name.slice(0,8).replace(' ', '-') + '-' + item.id}></label>
+	</InputRadio>
+	<time>{format(item.date, "hh:mmaa").replace('.', '')}</time>
+	<ItemContent isChecked={item.checked}>
+		<span>
 			{item.name}
-		</h5>
-		<div>
-			<div onClick={() => addCompletedTodo(item)}>Check</div>
-			<div onClick={() => removeTodo(item.id)}>Remove</div>
-		</div>
-	</li>
+		</span>
+	</ItemContent>
+	<ItemIcon onClick={() => removeTodo(item.id)}>
+		<Trash/>
+		<VisuallyHidden>Remove</VisuallyHidden>
+	</ItemIcon>
+	</Item>
 
 export default TodoItem;

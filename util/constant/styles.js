@@ -1,33 +1,39 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-const fontConfig = `
-  @font-face {
-    font-family: 'Montserrat-Medium';
-    src: url('/static/fonts/Montserrat/Medium.eot');
-    src: url('/static/fonts/Montserrat/Medium.eot?#iefix') format('embedded-opentype'),
-    url('/static/fonts/Montserrat/Medium.woff2') format('woff2'),
-    url('/static/fonts/Montserrat/Medium.woff') format('woff');
-    font-weight: normal;
-  }
-`;
-
 const grid = {
-  gutterMobile: '20px',
+  gutterMobile: '18px',
 };
 
 const colorNames = {
+  alto: '#D9D9D9',
   black: '#000',
+  butterflyBush: '#554E8F',
+  cornflowerBlue: '#F9FCFF',
+  cosmos: '#FFCFCF',
+  frenchGray: '#C6C6C8',
+  gold: '#FFD506',
+  gray: '#8E8E8E',
+  green: '#1ED102',
+  lavenderPurple: '#8B87B3',
+  nobel: '#B5B5B5',
+  razzmatazz: '#D10263',
+  redOrange: '#FB3636',
+  royalBlue: '#3044F2',
   white: '#fff',
+  conifer: '#91DC5A',
+  baliHai: '#82A0B7',
+  tundora: '#404040',
+  mineShaft: '#373737',
+  cornflower: '#5F87E7',
+  coral: '#FF0000',
+  brilliantRose: 'rgba(244, 86, 195, .46)',
 };
 
 const colors = {
   ...colorNames,
-  primary: colorNames.black,
-};
-
-const fonts = {
-  primary: 'Montserrat-Medium',
+  bg: colorNames.cornflowerBlue,
+  outline: colorNames.coral,
 };
 
 const easings = {
@@ -36,14 +42,18 @@ const easings = {
   easeOutQuart: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
 };
 
+const fonts = {
+  primary: 'Nunito Sans, sans-serif',
+  secondary: 'Rubik, sans-serif',
+};
+
 export const styles = {
   colors,
   easings,
-  fonts,
   grid,
+  fonts,
 };
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
-  ${fontConfig}
 `;
