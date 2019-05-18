@@ -3,34 +3,54 @@ import styled from 'styled-components';
 import { styles } from '../../util/constant/styles';
 
 export const FormStyles = styled.form`
-  padding: 40px 0 16px;
   background: ${styles.colors.white};
   overflow: hidden;
+  padding: 40px 0 16px;
 `;
 
 export const AddFormButton = styled.button`
-  -webkit-appearance: none;
   -moz-appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
   border: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   position: absolute;
   right: 12px;
-  background: transparent;
+  transition: bottom .2s ease;
 
   svg {
     border-radius: 50%;
     box-shadow: 0 4px 7px 0 ${styles.colors.brilliantRose};
+    transition: transform .2s ${styles.easings.easeInQuart};
     width: 53px;
   }
 `;
 
 export const AddFormWrapper = styled.div`
-  position: relative;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 9;
+
+  &::before {
+    background: ${styles.colors.black};
+    content: '';
+    height: 1000%;
+    left: 0;
+    opacity: .1;
+    position: absolute;
+    top: 0;
+    transform: translateY(-40%);
+    width: 100%;
+    z-index: -1;
+  }
 
   ${props => props.isOpenModal && `
     ${AddFormButton} {
-      top: -28px;
+      bottom: calc(100% - 25px);
+      z-index: 10;
 
       svg {
         transform: rotate(45deg);
@@ -40,14 +60,32 @@ export const AddFormWrapper = styled.div`
 
   ${props => !props.isOpenModal && `
     ${AddFormButton} {
-      bottom: 25px;
+      bottom: 15px;
     }
   `}
+
+  .showUp-enter {
+    transform: translateY(100%);
+  }
+
+  .showUp-enter-active {
+    transform: translateY(0);
+    transition: transform .2s ease;
+  }
+
+  .showUp-exit {
+    transform: translateY(0);
+  }
+
+  .showUp-exit-active {
+    transform: translateY(100%);
+    transition: transform .2s ease;
+  }
 `;
 
 export const AddFormHeader = styled.div`
-  font-family: ${styles.fonts.primary};
   color: ${styles.colors.tundora};
+  font-family: ${styles.fonts.primary};
   font-size: 13px;
   line-height: 14px;
   padding: 0 0 10px;
@@ -58,45 +96,45 @@ export const FormInput = styled.div`
   padding: 0 20px;
 
   input {
-    width: 100%;
+    background: transparent;
     border: none;
     color: ${styles.colors.mineShaft};
-    font-size: 20px;
-    line-height: 25px;
     font-family: ${styles.fonts.primary};
+    font-size: 20px;
     font-weight: 600;
-    background: transparent;
+    line-height: 25px;
+    width: 100%;
   }
 
   label {
-    position: absolute;
-    overflow: hidden;
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
     border: 0;
     clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
 `;
 
 export const FormTags = styled.div`
-  padding: 15px 0;
-  margin-left: 20px;
-  margin-bottom: 43px;
-  position: relative;
-  display: flex;
-  overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  margin-bottom: 43px;
+  margin-left: 20px;
+  overflow-x: scroll;
+  padding: 15px 0;
+  position: relative;
 
   &::after,
   &::before {
     content: '';
-    position: absolute;
-    left: 0;
-    width: calc(100% - 15px);
-    height: 1px;
     background: ${styles.colors.alto};
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: calc(100% - 15px);
   }
 
   &::after {
@@ -109,19 +147,33 @@ export const FormTags = styled.div`
 `;
 
 export const FormTag = styled.div`
-  padding: 0 0 0 15px;
-  margin-right: 15px;
+  margin: auto 15px;
   position: relative;
+  transition: margin .2s ${styles.easings.easeInQuart};
+
+  &::before {
+    background: ${props => props.color};
+    content: '';
+    
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 
+      height .2s ease,
+      border-radius .1s ease,
+      width .2s ease,
+      left .2s ease;
+  }
 
   input {
-    position: absolute;
-    overflow: hidden;
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
     border: 0;
     clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 
     &:focus + label {
       outline: 5px auto ${styles.colors.outline};
@@ -130,34 +182,36 @@ export const FormTag = styled.div`
   }
 
   label {
+    color: ${styles.colors.gray};
+    font-family: ${styles.fonts.primary};
     font-size: 15px;
     line-height: 26px;
-    font-family: ${styles.fonts.primary};
-    color: ${styles.colors.gray};
   }
 
   ${props => props.isChecked && `
-    background: ${props.color};
-    border-radius: 5px;
-    box-shadow: 0 4px 7px 0 ${props.color};
-    padding: 0 15px;
+    margin: auto 20px auto 10px;
+
+    &::before {
+      border-radius: 5px;
+      box-shadow: 0 4px 7px 0 ${props.color};
+      height: 100%;
+      left: -10px;
+      padding: 0 10px;
+      width: 100%;
+    }
 
     label {
+      position: relative;
       color: ${styles.colors.white};
     }
   `};
 
   ${props => !props.isChecked && `
-      &::before {
-      content: '';
-      width: 10px;
-      height: 10px;
-      background: ${props.color};
+    &::before {
       border-radius: 50%;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
+      height: 10px;
+      left: -15px;
+      width: 10px;
     }
   `};
 `;
@@ -165,14 +219,14 @@ export const DataPickerHeader = styled.div`
   padding: 0 0 10px;
 
   p {
+    color: ${styles.colors.tundora};
+    cursor: pointer;
     display: inline-block;
     font-family: ${styles.fonts.primary};
-    color: ${styles.colors.tundora};
     font-size: 13px;
     line-height: 18px;
-    text-align: left;
-    cursor: pointer;
     position: relative;
+    text-align: left;
 
     &:focus {
       outline: 5px auto ${styles.colors.outline};
@@ -183,8 +237,8 @@ export const DataPickerHeader = styled.div`
       content: '';
       border: solid ${styles.colors.tundora};
       border-width: 0 2px 2px 0;
-      margin: 0 0 2px 13px;
       display: inline-block;
+      margin: 0 0 2px 13px;
       padding: 2.5px;
       transform: rotate(45deg);
     }
@@ -192,32 +246,24 @@ export const DataPickerHeader = styled.div`
 `;
 
 export const FormDataPicker = styled.div`
-  padding: 0 0 0 20px;
+  padding: 0 0 45px 20px;
 
   input {
-    font-family: ${styles.fonts.primary};
+    border: none;
     color: ${styles.colors.tundora};
+    cursor: default;
+    cursor: pointer;
+    font-family: ${styles.fonts.primary};
     font-size: 13px;
     line-height: 18px;
-    padding: 0 0 10px;
-    text-align: left;
-    cursor: pointer;
-  }
-
-  input {
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    cursor: default;
-    outline: none;
-    border: none;
-    padding: 0;
     margin: 0;
-    pointer-events: none;
+    outline: none;
+    padding: 0 0 10px;
     padding: 0 0 40px;
+    padding: 0;
+    pointer-events: none;
+    text-align: left;
+    user-select: none;
   }
 `;
 
@@ -226,18 +272,24 @@ export const SubmitButtonWrapper = styled.div`
 `;
 
 export const SubmitButton = styled.button`
-  width: 100%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
   background: ${styles.colors.cornflower};
+  border-radius: 7px;
+  border: none;
   box-shadow: 0 4px 7px 0 ${styles.colors.cornflower};
   color: ${styles.colors.white};
-  border-radius: 7px;
-  padding: 15px 0 14px;
-  text-align: center;
+  cursor: pointer;
   font-family: ${styles.fonts.primary};
   font-size: 18px;
   line-height: 24px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
+  padding: 15px 0 14px;
+  text-align: center;
+  transition: transform .2s ease;
+  width: 100%;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 

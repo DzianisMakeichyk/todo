@@ -1,23 +1,21 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 import { 
-	Item,
 	InputRadio,
-	ItemIcon,
+	Item,
 	ItemContent,
+	ItemIcon,
 } from './styles';
-
-import { VisuallyHidden } from '..';
 
 import { Trash } from '../../util/icons';
 
-const TodoItem = ({ item, addCompletedTodo, removeTodo }) => <Item color={item.tag.color}>
+const TodoItem = ({ item, addCompletedTodo, removeTodo, }) => <Item color={item.tag.color}>
 	<InputRadio>
 		<input
-			id={item.name.slice(0,8).replace(' ', '-') + '-' + item.id}
-			type="radio"
+			id={item.name.slice(0, 8).replace(' ', '-') + '-' + item.id}
+			type="checkbox"
 			defaultChecked={item.checked}
-			onClick={() => addCompletedTodo(item)}
+			onChange={() => addCompletedTodo(item)}
 		/>
 		<label htmlFor={item.name.slice(0,8).replace(' ', '-') + '-' + item.id}></label>
 	</InputRadio>
@@ -29,7 +27,7 @@ const TodoItem = ({ item, addCompletedTodo, removeTodo }) => <Item color={item.t
 	</ItemContent>
 	<ItemIcon onClick={() => removeTodo(item.id)}>
 		<Trash/>
-		<VisuallyHidden>Remove</VisuallyHidden>
+		<span>Remove</span>
 	</ItemIcon>
 	</Item>
 

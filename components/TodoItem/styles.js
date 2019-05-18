@@ -3,33 +3,39 @@ import styled from 'styled-components';
 import { styles } from '../../util/constant/styles';
 
 export const Item = styled.li`
+  align-items: center;
+  background-color: ${styles.colors.white};
   border-radius: 5px;
-  box-shadow: 0 4px 9px 0 rgba(241,241,241,1);
+  box-shadow: 0 4px 9px 0 rgba(241, 241, 241, 1);
+  box-sizing: border-box;
+  display: flex;
+  margin-bottom: 14px;
   overflow: hidden;
   padding: 18px 18px 18px 15px;
-  background-color: ${styles.colors.white};
-  display: flex;
-  align-items: center;
   position: relative;
-  margin-bottom: 14px;
+  transition: transform .2s ease;
 
   &::before {
+    background-color: ${props => props.color};
     content: '';
+    height: 100%;
+    left: 0;
     position: absolute;
     top: 0;
-    left: 0;
     width: 4px;
-    height: 100%;
-    background-color: ${props => props.color};
+  }
+
+  &:hover {
+    transform: translateY(-2px);
   }
 
   time {
-    text-transform: uppercase;
     color: ${styles.colors.frenchGray};
     font-family: ${styles.fonts.primary};
     font-size: 11px;
     line-height: 15px;
     padding: 0 0 0 11px;
+    text-transform: uppercase;
   }
 `;
 
@@ -46,17 +52,6 @@ export const InputRadio = styled.div`
     width: 1px;
 
     &:checked + label {
-      border: 2px solid ${styles.colors.conifer};
-
-      &::after,
-      &::before {
-        opacity: 1;
-      }
-    }
-  }
-
-  &:hover {
-    label {
       border: 2px solid ${styles.colors.conifer};
 
       &::after,
@@ -109,23 +104,36 @@ export const InputRadio = styled.div`
 `;
 
 export const ItemContent = styled.p`
-  height: 19px;
+  -webkit-overflow-scrolling: touch;
   display: inline-block;
-  width: 100%;
   font-family: ${styles.fonts.primary};
   font-size: 14px;
+  height: 19px;
   line-height: 19px;
-  padding: 0 0 0 15px;
   margin-right: 18px;
   overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
+  padding: 0 0 0 15px;
   position: relative;
+  width: 100%;
 
   & > span {
     color: ${styles.colors.butterflyBush};
     position: absolute;
-    white-space: nowrap;
     transform: translateX(0);
+    transition: color .2s ease;
+    white-space: nowrap;
+
+    &::before {
+      background: ${styles.colors.alto};
+      content: '';
+      height: 1px;
+      left: -3%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: width .2s ease;
+      width: 0;
+    } 
   }
 
   ${props => props.isChecked && `
@@ -133,42 +141,28 @@ export const ItemContent = styled.p`
       color: ${styles.colors.alto};
 
       &::before {
-        content: '';
-        position: absolute;
         width: 105%;
-        height: 1px;
-        left: -3%;
-        top: 50%;
-        transform: translateY(-50%);
-        background: ${styles.colors.alto};
       } 
     }
   `}
 `;
 
 export const ItemIcon = styled.div`
-  margin: auto 0 auto auto;
   cursor: pointer;
+  margin: auto 0 auto auto;
   position: relative;
 
   &::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    right: -7px;
-    border-radius: 50%;
-    width: 27px;
-    height: 27px;
     background: ${styles.colors.cosmos};
+    border-radius: 50%;
+    content: '';
+    height: 27px;
     opacity: 0;
+    position: absolute;
+    right: -7px;
+    top: -7px;
     transition: opacity .2s ${styles.easings.easeInQuart};
-  }
-
-  svg {
-    width: 13px;
-    fill: ${styles.colors.alto};
-    position: relative;
-    transition: fill .2s ${styles.easings.easeInQuart};
+    width: 27px;
   }
 
   &:hover {
@@ -179,5 +173,23 @@ export const ItemIcon = styled.div`
     svg {
       fill: ${styles.colors.redOrange};
     }
+  }
+
+  svg {
+    fill: ${styles.colors.alto};
+    position: relative;
+    transition: fill .2s ${styles.easings.easeInQuart};
+    width: 13px;
+  }
+
+  span {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
 `;

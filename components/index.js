@@ -3,7 +3,6 @@ import Header from './Header/Header';
 import Layout from './Layout/Layout';
 import TodoItem from './TodoItem/TodoItem';
 import TodoView from './TodoView/TodoView';
-import VisuallyHidden from './VisuallyHidden/VisuallyHidden';
 import NoTasks from './NoTasks/NoTasks';
 
 export {
@@ -12,6 +11,5 @@ export {
   Layout,
   TodoItem,
   TodoView,
-  VisuallyHidden,
   NoTasks,
 };

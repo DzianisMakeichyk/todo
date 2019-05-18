@@ -1,15 +1,15 @@
 import { 
-  HeaderWrapper,
   HeaderContent,
-  UserInfo,
+  HeaderWrapper,
   UserAvatar,
+  UserInfo,
 } from './styles';
 
-const Header = () => <HeaderWrapper>
+const Header = ({ count }) => <HeaderWrapper>
   <HeaderContent>
     <UserInfo>
       <p>Hello Brenda!</p>
-      <span>Today you have 9 tasks</span>
+      <span>Today you have {count === 1 ? `${count} task` : `${count} tasks`}</span>
     </UserInfo>
     <UserAvatar>
     <picture>

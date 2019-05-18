@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import React, { Component } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import { 
   AddFormButton,
@@ -15,28 +16,27 @@ import {
   DataPickerHeader,
 } from './styles';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
 import { Button } from '../../util/icons';
 
 import { TAGS } from '../../util/constant/dates';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 class AddForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      date: '',
+      isDataPickerOpen: false,
+      isOpenModal: false,
       name: '', 
       tag: [],
-      date: '',
-      isOpenModal: false,
-      isDataPickerOpen: false,
     }
   }
 
   handleChange = e => {
     if (e.target) {
       const { name, type, value } = e.target;
-      console.log(value)
       const val = type === 'number' ? parseFloat(value) : value;
 
       this.setState({ [name]: val });
@@ -48,8 +48,6 @@ class AddForm extends Component {
       const { value } = e.target;
       const tag = TAGS[value - 1];
 
-      console.log(tag)
-
       this.setState({ tag });
     }
   };
@@ -57,71 +55,92 @@ class AddForm extends Component {
   addItem = e => {
     e.preventDefault();
     this.props.addTodo(this.state);
+    this.setState({
+      date: '',
+      name: '',
+      tag: [],
+    });
   };
 
   render () {
-    const { date, isOpenModal, tag, isDataPickerOpen } = this.state;
+    const {
+      date,
+      isDataPickerOpen,
+      isOpenModal,
+      name,
+      tag,
+    } = this.state;
 
     return <AddFormWrapper isOpenModal={isOpenModal}>
       <AddFormButton onClick={() => this.setState({ isOpenModal: !isOpenModal })}>
         <Button />
       </AddFormButton>
-      <FormStyles onSubmit={this.addItem}>
-        <AddFormHeader>
-          Add new task
-        </AddFormHeader>
-        <FormInput>
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="name"
-            id="AddTask" />
-          <label htmlFor="AddTask">Add new task</label>
-        </FormInput>
-
-        <FormTags
-          name="tags"
-          required
-          id="SelectCategory"
-        >
-          {TAGS.map(item => <FormTag 
-            key={item.id}
-            color={item.color} 
-            isChecked={tag.id === item.id}
-            >
+      <CSSTransition
+        classNames="showUp"
+        in={isOpenModal}
+        timeout={300}
+        unmountOnExit
+      >
+        <FormStyles onSubmit={this.addItem}>
+          <AddFormHeader>
+            Add new task
+          </AddFormHeader>
+          <FormInput>
             <input
-              type="radio"
-              value={item.id}
-              onChange={this.handleChangeTags}
-              id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
-              name="tagGroup" 
-              defaultChecked={tag.id === item.id}
+              id="AddTask" 
+              name="name"
+              onChange={this.handleChange}
+              required
+              type="text"
+              value={name}
             />
-            <label htmlFor={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}>{item.name}</label>
-          </FormTag>)}
-        </FormTags>
-        <FormDataPicker>
-          <DataPickerHeader>
-            <p tabIndex={0} onClick={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}>Choose date</p>
-          </DataPickerHeader>
-          <DatePicker
-            tabIndex={-1}
-            open={isDataPickerOpen}
-            selected={date}
-            onChange={date => this.setState({ date })}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            timeCaption="time"
-          />
-        </FormDataPicker>
-        <SubmitButtonWrapper>
-          <SubmitButton type='submit'>
-            Add Item
-          </SubmitButton>
-        </SubmitButtonWrapper>
-      </FormStyles>
+            <label htmlFor="AddTask">Add new task</label>
+          </FormInput>
+
+          <FormTags
+            name="tags"
+            required
+            id="SelectCategory"
+          >
+            {TAGS.map(item => <FormTag 
+              color={item.color} 
+              isChecked={tag.id === item.id}
+              key={item.id}
+              >
+              <input
+                defaultChecked={tag.id === item.id}
+                id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
+                name="tagGroup" 
+                onChange={this.handleChangeTags}
+                type="radio"
+                value={item.id}
+              />
+              <label htmlFor={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}>{item.name}</label>
+            </FormTag>)}
+          </FormTags>
+          <FormDataPicker>
+            <DataPickerHeader>
+              <p tabIndex={0} onClick={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}>Choose date</p>
+            </DataPickerHeader>
+            <DatePicker
+              dateFormat="MMMM d, yyyy HH:mm"
+              onChange={date => this.setState({ date })}
+              onClickOutside={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}
+              open={isDataPickerOpen}
+              selected={date}
+              showTimeSelect
+              tabIndex={-1}
+              timeCaption="time"
+              timeIntervals={15}
+            />
+          </FormDataPicker>
+          <SubmitButtonWrapper>
+            <SubmitButton type='submit'>
+              Add Item
+            </SubmitButton>
+          </SubmitButtonWrapper>
+        </FormStyles>
+      </CSSTransition>
     </AddFormWrapper>
   }
 }

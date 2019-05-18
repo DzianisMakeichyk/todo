@@ -1,18 +1,18 @@
-import isToday from 'date-fns/is_today';
-import isTomorrow from 'date-fns/is_tomorrow';
+import { isToday, isTomorrow } from 'date-fns';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import { 
   AddForm,
-  TodoItem,
   Header,
   NoTasks,
+  TodoItem,
 } from '..';
 
 import { 
-  TodoViewWrapper,
+  Title,
   TodoViewContainer,
   TodoViewStyles,
-  Title,
+  TodoViewWrapper,
 } from './styles';
 
 const TodoView = ({ 
@@ -22,14 +22,18 @@ const TodoView = ({
   removeCompletedTodo,
   removeTodo,
   todoList,
-  }) => <TodoViewStyles>
-    <Header />
+  }) => {
+    todoList.sort((a, b) => a.date - b.date);
+
+    return  <TodoViewStyles>
+    <Header count={todoList.length}/>
     <TodoViewContainer>
       <TodoViewWrapper>
         {todoList.length > 0 ? <>
           {todoList.filter(item => isToday(item.date)).length > 0 && <>
             <Title>Today</Title>
             <ul>
+            <ReactCSSTransitionGroup transitionName="showItem" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
               {todoList.map(item => !!isToday(item.date) && <TodoItem
                 key={item.id}
                 item={item}
@@ -39,11 +43,13 @@ const TodoView = ({
                 removeCompletedTodo={removeCompletedTodo} 
                 />
               )}
+            </ReactCSSTransitionGroup>
             </ul>
           </>}
           {todoList.filter(item => isTomorrow(item.date)).length > 0 && <>
             <Title>Tomorrow</Title>
             <ul>
+            <ReactCSSTransitionGroup transitionName="showItem" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
               {todoList.map(item => !!isTomorrow(item.date) && <TodoItem
                 key={item.id}
                 item={item}
@@ -53,6 +59,7 @@ const TodoView = ({
                 removeCompletedTodo={removeCompletedTodo} 
                 />
               )}
+              </ReactCSSTransitionGroup>
             </ul> 
           </>}
           </> : <NoTasks />}
@@ -64,6 +71,7 @@ const TodoView = ({
       </div>
       </TodoViewWrapper>
     </TodoViewContainer>
-  </TodoViewStyles>;
+  </TodoViewStyles>
+  };
 
 export default TodoView;

@@ -5,11 +5,23 @@ import { connect } from 'react-redux';
 import TodoView from '../components/TodoView/TodoView';
 import { actions } from '../redux/modules/todo';
 
-const { addTodo, removeTodo, addCompletedTodo, removeCompletedTodo } = actions;
+const { 
+	addCompletedTodo,
+	addTodo,
+	removeCompletedTodo,
+	removeTodo,
+} = actions;
 
 class TodoItemContainer extends Component {
 	render () {
-		const { todos, completedTodos, addTodo, removeTodo, addCompletedTodo, removeCompletedTodo } = this.props;
+		const {
+			addCompletedTodo,
+			addTodo,
+			completedTodos,
+			removeCompletedTodo,
+			removeTodo,
+			todos,
+		} = this.props;
 
 		return (
 			<>
@@ -35,10 +47,10 @@ const mapStateToProps = ({todo: { todos, completedTodos }}) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({
-		addTodo,
-		removeTodo,
 		addCompletedTodo,
+		addTodo,
 		removeCompletedTodo,
+		removeTodo,
 	}, dispatch)
 }
 
@@ -46,3 +58,4 @@ export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
 )(TodoItemContainer);
+
