@@ -1,3 +1,4 @@
+import React from 'react';
 import { Provider } from 'react-redux';
 
 import Layout from '../components/Layout/Layout';
@@ -7,7 +8,7 @@ import store from '../redux/store';
 export default () => (
   <Provider store={store}>
     <Layout>
-        <TodoItemContainer />
+      <TodoItemContainer />
     </Layout>
   </Provider>
-)
+);

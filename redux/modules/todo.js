@@ -7,61 +7,66 @@ export const constants = {
 let nextTodoId = 0;
 
 export const actions = {
-  addTodo({ name, tag, date }) {
+  addTodo ({ name, tag, date }) {
     return {
       type: constants.ADD_TODO,
-      itemToAdd: { 
+      itemToAdd: {
         checked: false,
         id: nextTodoId++,
-        name, 
+        name,
         tag,
-        date
-      }
+        date,
+      },
     };
   },
 
-  removeTodo( id ) {
+  removeTodo (id) {
     return {
       type: constants.REMOVE_TODO,
       id,
     };
   },
 
-  addCompletedTodo( item ) {
+  addCompletedTodo (item) {
     return {
       type: constants.COMPLETE_TODO,
       item,
     };
-  }
+  },
 };
 
 export const initialState = {
   todos: [],
-  completedTodos: []
+  completedTodos: [],
 };
 
-export default ( state = initialState, action ) => {
-  switch(action.type) {
+export default (state = initialState, action) => {
+  switch (action.type) {
     case constants.ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, action.itemToAdd],
-      }    
+        todos: [
+          ...state.todos,
+          action.itemToAdd,
+        ],
+      };
 
     case constants.REMOVE_TODO:
       return {
         ...state,
         todos: [...state.todos.filter((item) => item.id !== action.id)],
-      }
+      };
 
     case constants.COMPLETE_TODO:
       return {
         ...state,
         ...action.item.checked = !action.item.checked,
-        completedTodos: [...state.completedTodos, action.itemToComplete],
-      }
+        completedTodos: [
+          ...state.todos.filter((item) => item.checked === true),
+        ],
+      };
 
-    default: 
-      return state
+    default:
+      return state;
   }
 };

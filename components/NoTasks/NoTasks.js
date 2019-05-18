@@ -1,3 +1,4 @@
+import React from 'react';
 import { Clipboard } from '../../util/icons';
 
 import {

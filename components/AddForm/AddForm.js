@@ -1,8 +1,9 @@
 import DatePicker from 'react-datepicker';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
-import { 
+import {
   AddFormButton,
   AddFormWrapper,
   FormStyles,
@@ -18,7 +19,7 @@ import {
 
 import { Button } from '../../util/icons';
 
-import { TAGS } from '../../util/constant/dates';
+import TAGS from '../../util/constant/dates';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -29,9 +30,9 @@ class AddForm extends Component {
       date: '',
       isDataPickerOpen: false,
       isOpenModal: false,
-      name: '', 
+      name: '',
       tag: [],
-    }
+    };
   }
 
   handleChange = e => {
@@ -54,7 +55,11 @@ class AddForm extends Component {
 
   addItem = e => {
     e.preventDefault();
-    this.props.addTodo(this.state);
+
+    const { addTodo } = this.props;
+
+    addTodo(this.state);
+
     this.setState({
       date: '',
       name: '',
@@ -86,15 +91,17 @@ class AddForm extends Component {
             Add new task
           </AddFormHeader>
           <FormInput>
-            <input
-              id="AddTask" 
-              name="name"
-              onChange={this.handleChange}
-              required
-              type="text"
-              value={name}
-            />
-            <label htmlFor="AddTask">Add new task</label>
+            <label htmlFor="AddTask">
+              <input
+                id="AddTask"
+                name="name"
+                onChange={this.handleChange}
+                required
+                type="text"
+                value={name}
+              />
+              <span>Add new task</span>
+            </label>
           </FormInput>
 
           <FormTags
@@ -102,29 +109,38 @@ class AddForm extends Component {
             required
             id="SelectCategory"
           >
-            {TAGS.map(item => <FormTag 
-              color={item.color} 
+            {TAGS.map(item => <FormTag
+              color={item.color}
               isChecked={tag.id === item.id}
               key={item.id}
-              >
-              <input
-                defaultChecked={tag.id === item.id}
-                id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
-                name="tagGroup" 
-                onChange={this.handleChangeTags}
-                type="radio"
-                value={item.id}
-              />
-              <label htmlFor={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}>{item.name}</label>
+            >
+              <label htmlFor={`${item.name.toLocaleLowerCase().replace(' ', '-')}${item.id}`}>
+                {item.name}
+                <input
+                  defaultChecked={tag.id === item.id}
+                  id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
+                  name="tagGroup"
+                  onChange={this.handleChangeTags}
+                  type="radio"
+                  value={item.id}
+                />
+              </label>
             </FormTag>)}
           </FormTags>
           <FormDataPicker>
             <DataPickerHeader>
-              <p tabIndex={0} onClick={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}>Choose date</p>
+              <button
+                type="button"
+                tabIndex={0}
+                onClick={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}
+                onKeyPress={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}
+              >
+                Choose date
+              </button>
             </DataPickerHeader>
             <DatePicker
               dateFormat="MMMM d, yyyy HH:mm"
-              onChange={date => this.setState({ date })}
+              onChange={stage => this.setState({ date: stage })}
               onClickOutside={() => this.setState({ isDataPickerOpen: !isDataPickerOpen })}
               open={isDataPickerOpen}
               selected={date}
@@ -135,14 +151,18 @@ class AddForm extends Component {
             />
           </FormDataPicker>
           <SubmitButtonWrapper>
-            <SubmitButton type='submit'>
+            <SubmitButton type="submit">
               Add Item
             </SubmitButton>
           </SubmitButtonWrapper>
         </FormStyles>
       </CSSTransition>
-    </AddFormWrapper>
+    </AddFormWrapper>;
   }
 }
+
+AddForm.propTypes = {
+  addTodo: PropTypes.func.isRequired,
+};
 
 export default AddForm;

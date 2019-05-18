@@ -106,7 +106,7 @@ export const FormInput = styled.div`
     width: 100%;
   }
 
-  label {
+  span {
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;
@@ -218,13 +218,19 @@ export const FormTag = styled.div`
 export const DataPickerHeader = styled.div`
   padding: 0 0 10px;
 
-  p {
+  button {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
     color: ${styles.colors.tundora};
     cursor: pointer;
     display: inline-block;
     font-family: ${styles.fonts.primary};
     font-size: 13px;
     line-height: 18px;
+    margin: 0;
+    padding: 0;
     position: relative;
     text-align: left;
 
@@ -292,4 +298,3 @@ export const SubmitButton = styled.button`
     transform: scale(1.02);
   }
 `;
-
