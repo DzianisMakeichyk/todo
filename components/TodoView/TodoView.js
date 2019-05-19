@@ -59,6 +59,21 @@ const TodoView = ({
                 </ReactCSSTransitionGroup>
               </ul>
             </>}
+            {todoList.filter(item => !isToday(item.date) && !isTomorrow(item.date)).length > 0
+            && <>
+              <Title>Other</Title>
+              <ul>
+                {todoList.map(item => !isToday(item.date) && !isTomorrow(item.date) && <TodoItem
+                  key={item.id}
+                  item={item}
+                  completedTodos={completedTodos}
+                  addCompletedTodo={addCompletedTodo}
+                  removeTodo={removeTodo}
+                  removeCompletedTodo={removeCompletedTodo}
+                />)}
+              </ul>
+              </>
+            }
           </> : <NoTasks />}
           <AddForm
             todoList={todoList}
