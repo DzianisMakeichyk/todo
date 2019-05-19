@@ -124,6 +124,11 @@ export const ItemIcon = styled.div`
     }
   }
 
+  &:focus {
+    outline: 5px auto ${styles.colors.outline};
+    outline: 5px auto -webkit-focus-ring-color;
+  }
+
   svg {
     fill: ${styles.colors.alto};
     position: relative;
