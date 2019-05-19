@@ -2,43 +2,6 @@ import styled from 'styled-components';
 
 import { styles } from '../../util/constant/styles';
 
-export const Item = styled.li`
-  align-items: center;
-  background-color: ${styles.colors.white};
-  border-radius: 5px;
-  box-shadow: 0 4px 9px 0 rgba(241, 241, 241, 1);
-  box-sizing: border-box;
-  display: flex;
-  margin-bottom: 14px;
-  overflow: hidden;
-  padding: 18px 18px 18px 15px;
-  position: relative;
-  transition: transform .2s ease;
-
-  &::before {
-    background-color: ${props => props.color};
-    content: '';
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 4px;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-  }
-
-  time {
-    color: ${styles.colors.frenchGray};
-    font-family: ${styles.fonts.primary};
-    font-size: 11px;
-    line-height: 15px;
-    padding: 0 0 0 11px;
-    text-transform: uppercase;
-  }
-`;
-
 export const InputRadio = styled.div`
   input {
     -moz-appearance: none;
@@ -50,15 +13,6 @@ export const InputRadio = styled.div`
     overflow: hidden;
     position: absolute;
     width: 1px;
-
-    &:checked + label {
-      border: 2px solid ${styles.colors.conifer};
-
-      &::after,
-      &::before {
-        opacity: 1;
-      }
-    }
   }
 
   label {
@@ -135,16 +89,6 @@ export const ItemContent = styled.p`
       width: 0;
     } 
   }
-
-  ${props => props.isChecked && `
-    span {
-      color: ${styles.colors.alto};
-
-      &::before {
-        width: 105%;
-      } 
-    }
-  `}
 `;
 
 export const ItemIcon = styled.div`
@@ -192,4 +136,64 @@ export const ItemIcon = styled.div`
     position: absolute;
     width: 1px;
   }
+`;
+
+export const Item = styled.li`
+  align-items: center;
+  background-color: ${styles.colors.white};
+  border-radius: 5px;
+  box-shadow: 0 4px 9px 0 rgba(241, 241, 241, 1);
+  box-sizing: border-box;
+  display: flex;
+  margin-bottom: 14px;
+  overflow: hidden;
+  padding: 18px 18px 18px 15px;
+  position: relative;
+  transition: transform .2s ease;
+
+  &::before {
+    background-color: ${props => props.color};
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 4px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  time {
+    color: ${styles.colors.frenchGray};
+    font-family: ${styles.fonts.primary};
+    font-size: 11px;
+    line-height: 15px;
+    padding: 0 0 0 11px;
+    text-transform: uppercase;
+  }
+
+  ${props => props.isChecked && `
+    ${ItemContent} {
+      span {
+        color: ${styles.colors.alto};
+
+        &::before {
+          width: 105%;
+        } 
+      } 
+    }
+
+    ${InputRadio} {
+      label {
+        border: 2px solid ${styles.colors.conifer};
+
+        &::after,
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+  `}
 `;

@@ -60,7 +60,6 @@ export default (state = initialState, action) => {
     case constants.COMPLETE_TODO:
       return {
         ...state,
-        ...action.item.checked = !action.item.checked,
         completedTodos: [
           ...state.todos.filter((item) => item.checked === true),
         ],
