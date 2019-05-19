@@ -106,7 +106,7 @@ export const FormInput = styled.div`
     width: 100%;
   }
 
-  span {
+  label {
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;

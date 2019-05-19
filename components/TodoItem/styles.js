@@ -13,6 +13,11 @@ export const InputRadio = styled.div`
     overflow: hidden;
     position: absolute;
     width: 1px;
+
+    &:focus + label {
+      outline: 5px auto ${styles.colors.outline};
+      outline: 5px auto -webkit-focus-ring-color;
+    }
   }
 
   label {
@@ -165,6 +170,11 @@ export const Item = styled.li`
     transform: translateY(-2px);
   }
 
+  &:focus {
+    outline: 5px auto ${styles.colors.outline};
+    outline: 5px auto -webkit-focus-ring-color;
+  }
+
   time {
     color: ${styles.colors.frenchGray};
     font-family: ${styles.fonts.primary};
@@ -176,7 +186,7 @@ export const Item = styled.li`
 
   ${props => props.isChecked && `
     ${ItemContent} {
-      span {
+      label {
         color: ${styles.colors.alto};
 
         &::before {

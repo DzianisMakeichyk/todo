@@ -16,16 +16,15 @@ const TodoItem = ({ item, addCompletedTodo, removeTodo }) => {
   };
 
   return (
-    <Item color={item.tag.color} isChecked={item.checked}>
+    <Item color={item.tag.color} isChecked={item.checked} tabIndex={0}>
       <InputRadio>
-        <label htmlFor={`${item.name.slice(0, 8).replace(' ', '-')}-${item.id}`}>
-          <input
-            id={`${item.name.slice(0, 8).replace(' ', '-')}-${item.id}`}
-            type="checkbox"
-            defaultChecked={item.checked}
-            onChange={() => handleChecked()}
-          />
-        </label>
+        <input
+          id={`${item.name.slice(0, 8).replace(' ', '-')}-${item.id}`}
+          type="checkbox"
+          defaultChecked={item.checked}
+          onChange={() => handleChecked()}
+        />
+        <label htmlFor={`${item.name.slice(0, 8).replace(' ', '-')}-${item.id}`}></label>
       </InputRadio>
       <time>{format(item.date, 'hh:mmaa').replace('.', '')}</time>
       <ItemContent>
@@ -33,7 +32,7 @@ const TodoItem = ({ item, addCompletedTodo, removeTodo }) => {
           {item.name}
         </span>
       </ItemContent>
-      <ItemIcon onClick={() => removeTodo(item.id)}>
+      <ItemIcon onClick={() => removeTodo(item.id)} tabIndex={0}>
         <Trash />
         <span>Remove</span>
       </ItemIcon>

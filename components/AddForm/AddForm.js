@@ -91,17 +91,15 @@ class AddForm extends Component {
             Add new task
           </AddFormHeader>
           <FormInput>
-            <label htmlFor="AddTask">
-              <input
-                id="AddTask"
-                name="name"
-                onChange={this.handleChange}
-                required
-                type="text"
-                value={name}
-              />
-              <span>Add new task</span>
-            </label>
+            <input
+              id="AddTask"
+              name="name"
+              onChange={this.handleChange}
+              required
+              type="text"
+              value={name}
+            />
+            <label htmlFor="AddTask">Add new task</label>
           </FormInput>
 
           <FormTags
@@ -114,17 +112,15 @@ class AddForm extends Component {
               isChecked={tag.id === item.id}
               key={item.id}
             >
-              <label htmlFor={`${item.name.toLocaleLowerCase().replace(' ', '-')}${item.id}`}>
-                {item.name}
-                <input
-                  defaultChecked={tag.id === item.id}
-                  id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
-                  name="tagGroup"
-                  onChange={this.handleChangeTags}
-                  type="radio"
-                  value={item.id}
-                />
-              </label>
+              <input
+                defaultChecked={tag.id === item.id}
+                id={item.name.toLocaleLowerCase().replace(' ', '-') + item.id}
+                name="tagGroup"
+                onChange={this.handleChangeTags}
+                type="radio"
+                value={item.id}
+              />
+              <label htmlFor={`${item.name.toLocaleLowerCase().replace(' ', '-')}${item.id}`}>{item.name}</label>
             </FormTag>)}
           </FormTags>
           <FormDataPicker>
